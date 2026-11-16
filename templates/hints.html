@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block title %}Step-by-Step Hint · {{ app_name }}{% endblock %}
+{% block content %}
+<div class="page-intro"><div class="eyebrow">MAKE THE NEXT MOVE YOURSELF</div><h1>Step-by-Step Hint</h1><p>Get just enough help to make progress without spoiling the entire problem.</p></div>
+<section class="form-panel narrow-panel">
+  <form method="post" class="tool-form">
+    <div class="field-group"><label for="problem">Problem statement</label><textarea id="problem" name="problem" rows="6" placeholder="Paste the full question or describe the problem…" required></textarea></div>
+    <div class="field-group"><label for="attempt">What have you tried so far?</label><textarea id="attempt" name="attempt" rows="4" placeholder="Your idea, pseudocode, code, or where you are stuck…"></textarea></div>
+    <div class="field-group"><label for="hint_strength">How much help do you want?</label><select id="hint_strength" name="hint_strength"><option>Tiny nudge</option><option selected>Useful hint</option><option>Detailed approach</option><option>Full explanation</option></select></div>
+    <div class="hint-scale"><span>Small clue</span><div><i></i><i></i><i></i><i></i></div><span>Full solution</span></div>
+    <div class="form-footer"><span class="form-hint">Start small. Increase the help only when you need it.</span><button class="button button-primary" type="submit">Give me a hint <span>→</span></button></div>
+  </form>
+</section>
+{% include '_output.html' %}
+{% endblock %}

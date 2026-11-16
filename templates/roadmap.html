@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block title %}Learning Roadmap · {{ app_name }}{% endblock %}
+{% block content %}
+<div class="page-intro"><div class="eyebrow">TURN YOUR GOAL INTO A PLAN</div><h1>Learning Roadmap</h1><p>Build a practical week-by-week path with milestones, hands-on work, and checkpoints.</p></div>
+<section class="form-panel narrow-panel">
+  <form method="post" class="tool-form">
+    <div class="field-group"><label for="goal">Learning goal</label><input id="goal" name="goal" type="text" placeholder="e.g. become confident at DSA interviews or build a Python API" required></div>
+    <div class="two-column-fields">
+      <div class="field-group"><label for="duration">Timeline</label><select id="duration" name="duration">{% for value in ['1 week', '2 weeks', '1 month', '2 months', '3 months', '6 months'] %}<option {% if value == '1 month' %}selected{% endif %}>{{ value }}</option>{% endfor %}</select></div>
+      <div class="field-group"><label for="hours">Hours available per week</label><select id="hours" name="hours">{% for value in range(1, 31) %}<option value="{{ value }}" {% if value == 7 %}selected{% endif %}>{{ value }} hours</option>{% endfor %}</select></div>
+    </div>
+    <div class="field-group"><label for="current_knowledge">What do you already know?</label><textarea id="current_knowledge" name="current_knowledge" rows="4" placeholder="Topics you know, projects built, or areas you struggle with…"></textarea></div>
+    <div class="field-group"><label for="constraints">Any constraints?</label><input id="constraints" name="constraints" type="text" placeholder="e.g. classes during the day, only free tools, exam on Friday"></div>
+    <div class="form-footer"><span class="form-hint">The plan will fit your selected learning level and time.</span><button class="button button-primary" type="submit">Build my roadmap <span>→</span></button></div>
+  </form>
+</section>
+{% if output %}<section class="output-panel"><div class="output-heading"><div><div class="eyebrow">YOUR PLAN</div><h2>Your learning roadmap</h2></div><button type="button" class="button button-quiet button-small" data-copy-target=".markdown-body">Copy text</button></div><article class="markdown-body">{{ output_html }}</article></section>{% endif %}
+{% endblock %}

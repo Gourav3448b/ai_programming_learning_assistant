@@ -1,0 +1,6 @@
+{% if output %}
+<section class="output-panel">
+  <div class="output-heading"><div><div class="eyebrow">YOUR RESULT</div><h2>{{ output.title }}</h2></div><button type="button" class="button button-quiet button-small" data-copy-target=".markdown-body">Copy text</button></div>
+  <article class="markdown-body">{{ output_html }}</article>
+</section>
+{% endif %}

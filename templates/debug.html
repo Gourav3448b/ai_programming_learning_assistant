@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block title %}Debug Code · {{ app_name }}{% endblock %}
+{% block content %}
+<div class="page-intro"><div class="eyebrow">FIND THE REASON, NOT JUST THE FIX</div><h1>Debug Code</h1><p>Share your code, error, and expected result to get a diagnosis and a reasoned fix.</p></div>
+<section class="form-panel">
+  <form method="post" class="tool-form">
+    <div class="field-group"><label for="code">Your code</label><textarea class="code-input" id="code" name="code" rows="11" placeholder="Paste the smallest code snippet that reproduces the problem…" spellcheck="false" required></textarea></div>
+    <div class="two-column-fields">
+      <div class="field-group"><label for="error">Error message / actual output</label><textarea id="error" name="error" rows="4" placeholder="Traceback, compiler error, or wrong output…"></textarea></div>
+      <div class="field-group"><label for="expected">What did you expect?</label><textarea id="expected" name="expected" rows="4" placeholder="Explain the expected behaviour…"></textarea></div>
+    </div>
+    <div class="field-group"><label>Help style</label><div class="radio-cards">
+      <label><input type="radio" name="debug_mode" value="Explain the bug first" checked><span>Explain first</span></label>
+      <label><input type="radio" name="debug_mode" value="Show a corrected version too"><span>Show a fix</span></label>
+      <label><input type="radio" name="debug_mode" value="Review for edge cases and complexity"><span>Review edge cases</span></label>
+    </div></div>
+    <div class="form-footer"><span class="form-hint">Submitted code is sent to Gemini but is never executed by this app.</span><button class="button button-primary" type="submit">Analyze my code <span>→</span></button></div>
+  </form>
+</section>
+{% include '_output.html' %}
+{% endblock %}

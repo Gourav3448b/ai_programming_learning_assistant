@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block title %}Explain a Concept · {{ app_name }}{% endblock %}
+{% block content %}
+<div class="page-intro"><div class="eyebrow">MAKE COMPLEX IDEAS CLICK</div><h1>Explain a Concept</h1><p>Turn a confusing topic into a clear explanation with an analogy, example, and quick check.</p></div>
+<section class="form-panel narrow-panel">
+  <form method="post" class="tool-form">
+    <div class="field-group"><label for="topic">Concept or topic</label><input id="topic" name="topic" type="text" placeholder="e.g. recursion, pointers, SQL joins, time complexity" required></div>
+    <div class="field-group"><label for="familiarity">How familiar are you with it?</label><select id="familiarity" name="familiarity"><option>Brand new</option><option>Know the basics</option><option>Some experience</option></select></div>
+    <label class="check-row"><input type="checkbox" name="include_example" checked><span>Include a worked code example</span></label>
+    <div class="form-footer"><span class="form-hint">Your explanation adapts to your learning settings.</span><button class="button button-primary" type="submit">Explain this concept <span>→</span></button></div>
+  </form>
+</section>
+{% include '_output.html' %}
+{% endblock %}

@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% block title %}Quiz Lab · {{ app_name }}{% endblock %}
+{% block content %}
+<div class="page-intro"><div class="eyebrow">PRACTICE AND CHECK YOUR UNDERSTANDING</div><h1>Quiz Lab</h1><p>Generate a multiple-choice quiz, answer it, then check your score and explanations.</p></div>
+<section class="form-panel narrow-panel">
+  <form method="post" class="tool-form">
+    <input type="hidden" name="action" value="generate">
+    <div class="field-group"><label for="quiz_topic">Topic</label><input id="quiz_topic" name="quiz_topic" type="text" placeholder="e.g. Python functions, OOP, arrays, DBMS normalization" required></div>
+    <div class="two-column-fields">
+      <div class="field-group"><label for="quiz_count">Number of questions</label><select id="quiz_count" name="quiz_count">{% for n in range(3, 11) %}<option value="{{ n }}" {% if n == 5 %}selected{% endif %}>{{ n }} questions</option>{% endfor %}</select></div>
+      <div class="field-group"><label for="quiz_difficulty">Difficulty</label><select id="quiz_difficulty" name="quiz_difficulty"><option>Easy</option><option selected>Medium</option><option>Hard</option><option>Mixed</option></select></div>
+    </div>
+    <div class="field-group"><label for="quiz_scope">Optional scope</label><input id="quiz_scope" name="quiz_scope" type="text" placeholder="e.g. include time complexity and edge cases"></div>
+    <div class="form-footer"><span class="form-hint">Questions are generated for your selected language and level.</span><button class="button button-primary" type="submit">Generate quiz <span>→</span></button></div>
+  </form>
+</section>
+
+{% if quiz_raw_response %}
+<details class="raw-response"><summary>View raw Gemini response</summary><pre>{{ quiz_raw_response }}</pre></details>
+{% endif %}
+{% if quiz_data %}
+<section class="quiz-panel">
+  <div class="quiz-heading"><div><div class="eyebrow">YOUR PRACTICE SET</div><h2>{{ quiz_data.topic }}</h2><p>{{ quiz_data.difficulty }} · {{ quiz_data.questions|length }} questions</p></div><span class="quiz-count">{{ quiz_data.questions|length }} Q</span></div>
+  {% if quiz_graded %}
+    <div class="score-banner"><div><span class="eyebrow">YOUR SCORE</span><div class="score-number">{{ score }} <span>/ {{ quiz_data.questions|length }}</span></div></div><div class="score-percent">{{ ((score / quiz_data.questions|length) * 100)|round|int }}%</div></div>
+  {% endif %}
+  <form method="post" action="{{ url_for('quiz') }}" class="quiz-questions">
+    <input type="hidden" name="action" value="grade">
+    {% for question in quiz_data.questions %}
+      {% set question_index = loop.index0 %}
+      {% set selected = quiz_answers.get(question_index|string, '') %}
+      <fieldset class="question-card">
+        <legend><span class="question-number">{{ '%02d'|format(loop.index) }}</span><span>{{ question.question }}</span></legend>
+        <div class="question-options">
+          {% for letter in ['A', 'B', 'C', 'D'] %}
+            <label class="quiz-option {% if quiz_graded and letter == question.answer %}option-correct{% elif quiz_graded and selected == letter and selected != question.answer %}option-wrong{% endif %}">
+              <input type="radio" name="answer_{{ question_index }}" value="{{ letter }}" {% if selected == letter %}checked{% endif %} {% if quiz_graded %}disabled{% endif %}>
+              <span class="option-letter">{{ letter }}</span><span>{{ question.options[letter] }}</span>
+              {% if quiz_graded and letter == question.answer %}<span class="option-mark">✓</span>{% elif quiz_graded and selected == letter and selected != question.answer %}<span class="option-mark">×</span>{% endif %}
+            </label>
+          {% endfor %}
+        </div>
+        {% if quiz_graded %}<div class="answer-explanation"><strong>{% if selected == question.answer %}Correct{% else %}Correct answer: {{ question.answer }}{% endif %}</strong><p>{{ question.explanation }}</p></div>{% endif %}
+      </fieldset>
+    {% endfor %}
+    {% if not quiz_graded %}<div class="quiz-submit-row"><span class="form-hint">You can leave a question unanswered.</span><button class="button button-primary" type="submit">Check my answers <span>→</span></button></div>{% endif %}
+  </form>
+  {% if quiz_graded %}<form method="post" action="{{ url_for('quiz_reset') }}" class="new-quiz-form"><button class="button button-primary" type="submit">Create another quiz <span>→</span></button></form>{% endif %}
+</section>
+{% endif %}
+{% endblock %}

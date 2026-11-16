@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% block title %}Home · {{ app_name }}{% endblock %}
+{% block content %}
+<section class="welcome-banner">
+  <div class="welcome-copy">
+    <div class="eyebrow"><span class="eyebrow-line"></span> YOUR PERSONAL CODING MENTOR</div>
+    <h1>Understand code.<br><span>Build confidence.</span></h1>
+    <p>Learn programming by thinking through problems. Get clear explanations, practical debugging help, guided hints, quizzes, and a plan for what to learn next.</p>
+    <a class="button button-primary" href="{{ url_for('chat') }}">Start learning <span>→</span></a>
+  </div>
+  <div class="welcome-art" aria-hidden="true">
+    <div class="art-orbit orbit-one"></div><div class="art-orbit orbit-two"></div>
+    <div class="art-core"><span>&lt;/&gt;</span></div>
+    <span class="art-tag tag-python">Py</span><span class="art-tag tag-braces">{ }</span><span class="art-tag tag-bulb">✳</span>
+  </div>
+</section>
+
+<div class="section-heading"><div><div class="eyebrow">PICK UP WHERE YOU NEED</div><h2>Your learning tools</h2></div><span class="section-count">06 WORKSPACES</span></div>
+<div class="feature-grid">
+  <a class="feature-card" href="{{ url_for('chat') }}"><span class="feature-icon icon-chat">◌</span><span class="feature-arrow">↗</span><h3>AI Tutor Chat</h3><p>Ask follow-up questions and learn through a conversation that remembers the session.</p><span class="feature-link">Open tutor <span>→</span></span></a>
+  <a class="feature-card" href="{{ url_for('explain') }}"><span class="feature-icon icon-explain">✳</span><span class="feature-arrow">↗</span><h3>Explain a Concept</h3><p>Break down a difficult topic with an analogy, a worked example, and quick checks.</p><span class="feature-link">Explore concepts <span>→</span></span></a>
+  <a class="feature-card" href="{{ url_for('debug') }}"><span class="feature-icon icon-debug">⌘</span><span class="feature-arrow">↗</span><h3>Debug Code</h3><p>Understand what is going wrong and why, then work through a sensible fix.</p><span class="feature-link">Debug code <span>→</span></span></a>
+  <a class="feature-card" href="{{ url_for('hints') }}"><span class="feature-icon icon-hints">↗</span><span class="feature-arrow">↗</span><h3>Step-by-Step Hint</h3><p>Get a small nudge or a detailed approach without spoiling the problem too early.</p><span class="feature-link">Get a hint <span>→</span></span></a>
+  <a class="feature-card" href="{{ url_for('quiz') }}"><span class="feature-icon icon-quiz">✓</span><span class="feature-arrow">↗</span><h3>Quiz Lab</h3><p>Generate multiple-choice questions, check your score, and review explanations.</p><span class="feature-link">Practice now <span>→</span></span></a>
+  <a class="feature-card" href="{{ url_for('roadmap') }}"><span class="feature-icon icon-roadmap">▤</span><span class="feature-arrow">↗</span><h3>Learning Roadmap</h3><p>Turn a learning goal into a realistic weekly plan with milestones and projects.</p><span class="feature-link">Build a plan <span>→</span></span></a>
+</div>
+
+<section class="home-bottom-grid">
+  <div class="panel quick-panel">
+    <div class="panel-heading"><div><div class="eyebrow">NEED A STARTING POINT?</div><h3>Try asking your tutor</h3></div><span class="panel-icon">✧</span></div>
+    <a class="prompt-suggestion" href="{{ url_for('chat') }}"><span>“</span><span>I understand loops, but nested loops confuse me. Teach me with a dry run.</span><span class="suggestion-arrow">↗</span></a>
+    <a class="prompt-suggestion" href="{{ url_for('chat') }}"><span>“</span><span>Give me one hint for Two Sum. Don't reveal the complete solution yet.</span><span class="suggestion-arrow">↗</span></a>
+    <a class="prompt-suggestion" href="{{ url_for('chat') }}"><span>“</span><span>Explain Python dictionaries and then quiz me with five MCQs.</span><span class="suggestion-arrow">↗</span></a>
+  </div>
+  <div class="panel status-panel">
+    <div class="eyebrow">YOUR CURRENT SETUP</div><h3>Learning environment</h3>
+    <div class="status-row"><span>Runtime</span><strong>Python {{ python_version }}</strong></div>
+    <div class="status-row"><span>AI provider</span><strong>Google Gemini</strong></div>
+    <div class="status-row"><span>Model</span><strong class="model-value">{{ current_model }}</strong></div>
+    <div class="status-row"><span>Connection</span><strong class="connection-value {% if api_key_is_set %}text-success{% else %}text-warning{% endif %}">{% if api_key_is_set %}Configured{% else %}Needs API key{% endif %}</strong></div>
+    {% if not api_key_is_set %}<a class="text-link" href="{{ request.path }}?settings=open">Configure Gemini key <span>→</span></a>{% endif %}
+  </div>
+</section>
+<div class="learning-note"><span>✦</span><span><strong>Learn actively.</strong> Treat AI answers as a starting point. Test code locally and make sure you understand the reasoning.</span></div>
+{% endblock %}

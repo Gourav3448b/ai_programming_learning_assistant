@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block title %}AI Tutor Chat · {{ app_name }}{% endblock %}
+{% block content %}
+<div class="page-intro"><div class="eyebrow">LEARN THROUGH CONVERSATION</div><h1>AI Tutor Chat</h1><p>Ask about a concept, algorithm, error, or study problem. Follow-up context is kept for this browser session.</p></div>
+<section class="chat-panel">
+  <div class="chat-toolbar"><div class="chat-profile"><span class="online-avatar">C</span><div><strong>CodeSathi Tutor</strong><small>{{ level }} · {{ language }} · {{ learning_style }}</small></div></div>
+    <form method="post" action="{{ url_for('chat') }}" data-confirm="Clear the conversation history?"><input type="hidden" name="action" value="clear"><button class="button button-quiet button-small" type="submit">Clear chat</button></form>
+  </div>
+  <div class="chat-messages" id="chat-messages">
+    {% if not messages %}
+      <div class="chat-empty"><div class="empty-orb">✧</div><h3>What are you learning today?</h3><p>Start with a question, a coding problem, or a topic you want to understand better.</p><div class="chat-chips"><span>Explain recursion</span><span>Help with a bug</span><span>DSA practice</span></div></div>
+    {% endif %}
+    {% for message in messages %}
+      <div class="message-row {% if message.role == 'user' %}user-row{% else %}assistant-row{% endif %}">
+        {% if message.role == 'assistant' %}<span class="message-avatar">C</span>{% endif %}
+        <div class="message-bubble {% if message.role == 'assistant' %}assistant-bubble{% else %}user-bubble{% endif %}">
+          {% if message.role == 'assistant' %}<div class="markdown-body">{{ message.html }}</div>{% else %}{{ message.content }}{% endif %}
+        </div>
+        {% if message.role == 'user' %}<span class="user-avatar">You</span>{% endif %}
+      </div>
+    {% endfor %}
+  </div>
+  <form class="chat-composer" method="post" action="{{ url_for('chat') }}">
+    <label class="sr-only" for="question">Your message</label><textarea id="question" name="question" rows="2" placeholder="Ask a programming question…" required></textarea>
+    <div class="composer-bottom"><span>Enter to send · Shift + Enter for a new line</span><button class="button button-primary" type="submit">Send <span>↑</span></button></div>
+  </form>
+</section>
+{% endblock %}
